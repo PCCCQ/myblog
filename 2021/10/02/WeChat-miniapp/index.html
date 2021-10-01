@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.azzx.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="微信小程序设计实例1（背单词）一.简介背单词小程序：全部为前端代码，无后端 无后端带来的弊端就是无同步功能，只能自己记忆背到了哪里。好在只有690个词，分成23组，每组30个词。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WeChat-miniapp">
+<meta property="og:url" content="https://blog.azzx.top/2021/10/02/WeChat-miniapp/index.html">
+<meta property="og:site_name" content="zzx-blog">
+<meta property="og:description" content="微信小程序设计实例1（背单词）一.简介背单词小程序：全部为前端代码，无后端 无后端带来的弊端就是无同步功能，只能自己记忆背到了哪里。好在只有690个词，分成23组，每组30个词。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://article.biliimg.com/bfs/article/32dcb4effb9b677c48e89da19b1b824463103dbc.gif">
+<meta property="article:published_time" content="2021-10-01T17:04:30.000Z">
+<meta property="article:modified_time" content="2021-10-01T17:17:25.633Z">
+<meta property="article:author" content="zzx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://article.biliimg.com/bfs/article/32dcb4effb9b677c48e89da19b1b824463103dbc.gif">
+
+<link rel="canonical" href="https://blog.azzx.top/2021/10/02/WeChat-miniapp/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>WeChat-miniapp | zzx-blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zzx-blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.azzx.top/2021/10/02/WeChat-miniapp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zzx">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zzx-blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WeChat-miniapp
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-02 01:04:30 / 修改时间：01:17:25" itemprop="dateCreated datePublished" datetime="2021-10-02T01:04:30+08:00">2021-10-02</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="微信小程序设计实例1（背单词）"><a href="#微信小程序设计实例1（背单词）" class="headerlink" title="微信小程序设计实例1（背单词）"></a>微信小程序设计实例1（背单词）</h1><h2 id="一-简介"><a href="#一-简介" class="headerlink" title="一.简介"></a>一.简介</h2><p>背单词小程序：全部为前端代码，无后端</p>
+<p>无后端带来的弊端就是无同步功能，只能自己记忆背到了哪里。好在只有690个词，分成23组，每组30个词。</p>
+<p><img src="https://article.biliimg.com/bfs/article/32dcb4effb9b677c48e89da19b1b824463103dbc.gif" alt="展示"></p>
+<span id="more"></span>
+
+<h2 id="二-代码实现"><a href="#二-代码实现" class="headerlink" title="二.代码实现"></a>二.代码实现</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--pages/class/class.wxml--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;texttop text&quot;</span> &gt;</span></span><br><span class="line">一.共687个四级核心单词。</span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;text texttop&quot;</span>&gt;</span></span><br><span class="line">  二.30个单词一组，共23组单词。</span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;text texttop&quot;</span>&gt;</span></span><br><span class="line">  三.本应用无后端服务器，无法保存单词进度。</span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;text texttop&quot;</span>&gt;</span></span><br><span class="line">  四.请自行记忆背诵进度。</span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">image</span> <span class="attr">src</span>=<span class="string">&quot;../img/1.png&quot;</span> <span class="attr">style</span>=<span class="string">&quot;object-fit: cover;width: 50%;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">image</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* pages/class/class.wxss */</span></span><br><span class="line"></span><br><span class="line"><span class="selector-class">.userinfo</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#aaa</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.userinfo-avatar</span> &#123;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">128</span>rpx;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">128</span>rpx;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">20</span>rpx;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.usermotto</span> &#123;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">200px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.text</span>&#123;</span><br><span class="line">  <span class="attribute">margin-left</span>: <span class="number">5%</span>;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">5%</span>;</span><br><span class="line">  <span class="attribute">letter-spacing</span>: <span class="number">4</span>rpx;</span><br><span class="line">  <span class="attribute">font-family</span>: 宋体;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">40</span>rpx;</span><br><span class="line">  <span class="attribute">text-indent</span>: <span class="number">2em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.texttop</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">40</span>rpx;<span class="attribute">font-weight</span>:bold;<span class="attribute">text-indent</span>: <span class="number">0em</span>;<span class="attribute">margin-bottom</span>: <span class="number">10</span>rpx;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">10</span>rpx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--pages/word/danci.wxml--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--请注意 text3为txet3 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- &lt;view wx:for=&quot;&#123;&#123;c&#125;&#125;&quot;&gt;</span></span><br><span class="line"><span class="comment">  &lt;navigator url=&quot;../word/word?zubie=&#123;&#123;item&#125;&#125;&amp;zn=0&quot;&gt;第&#123;&#123;item&#125;&#125;组&lt;/navigator&gt;</span></span><br><span class="line"><span class="comment">&lt;/view&gt; --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;table&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;tr bg-w&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;th&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;th&quot;</span>&gt;</span>单词组别<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;th &quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">block</span> <span class="attr">wx:for</span>=<span class="string">&quot;&#123;&#123;listData&#125;&#125;&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;tr bg-g&quot;</span> <span class="attr">wx:if</span>=<span class="string">&quot;&#123;&#123;index % 2 == 0&#125;&#125;&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;td&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">&quot;../word/word?zubie=&#123;&#123;item.text1&#125;&#125;&amp;zn=0&quot;</span>&gt;</span>第&#123;&#123;item.text1&#125;&#125;组<span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;td&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">&quot;../word/word?zubie=&#123;&#123;item.text2&#125;&#125;&amp;zn=0&quot;</span>&gt;</span>第&#123;&#123;item.text2&#125;&#125;组<span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;td&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">&quot;../word/word?zubie=&#123;&#123;item.txet3&#125;&#125;&amp;zn=0&quot;</span>&gt;</span>第&#123;&#123;item.txet3&#125;&#125;组<span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;tr&quot;</span> <span class="attr">wx:else</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;td&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">&quot;../word/word?zubie=&#123;&#123;item.text1&#125;&#125;&amp;zn=0&quot;</span>&gt;</span>第&#123;&#123;item.text1&#125;&#125;组<span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;td&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">&quot;../word/word?zubie=&#123;&#123;item.text2&#125;&#125;&amp;zn=0&quot;</span>&gt;</span>第&#123;&#123;item.text2&#125;&#125;组<span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;td&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">&quot;../word/word?zubie=&#123;&#123;item.txet3&#125;&#125;&amp;zn=0&quot;</span>&gt;</span>第&#123;&#123;item.txet3&#125;&#125;组<span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">block</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;tr&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;td&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">&quot;../word/word?zubie=&#123;&#123;listData1.text1&#125;&#125;&amp;zn=0&quot;</span>&gt;</span></span><br><span class="line">        第&#123;&#123;listData1.text1&#125;&#125;组<span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;td&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">&quot;../word/word?zubie=&#123;&#123;listData1.text2&#125;&#125;&amp;zn=0&quot;</span>&gt;</span></span><br><span class="line">        第&#123;&#123;listData1.text2&#125;&#125;组<span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;td&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;img&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">image</span> <span class="attr">src</span>=<span class="string">&quot;../img/2.png&quot;</span> <span class="attr">style</span>=<span class="string">&quot;object-fit: cover;width: 50%;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">image</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* pages/word/danci.wxss */</span></span><br><span class="line"><span class="selector-class">.table</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">0px</span> solid darkgray;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="selector-class">.tr</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">3rem</span>;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="selector-class">.td</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">40%</span>;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="selector-class">.bg-w</span>&#123;</span><br><span class="line">  <span class="attribute">background</span>: snow;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="selector-class">.bg-g</span>&#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#ddffea</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="selector-class">.th</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">40%</span>;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#73bd86</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">3rem</span>;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="selector-class">.img</span>&#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>rpx <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pages/word/danci.js</span></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 页面的初始数据</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="attr">data</span>: &#123;</span><br><span class="line">    <span class="attr">c</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>,<span class="number">13</span>,<span class="number">14</span>,<span class="number">15</span>,<span class="number">16</span>,<span class="number">17</span>,<span class="number">18</span>,<span class="number">19</span>,<span class="number">20</span>,<span class="number">21</span>,<span class="number">22</span>,<span class="number">23</span>],</span><br><span class="line">    <span class="attr">listData</span>:[</span><br><span class="line">      &#123;<span class="string">&quot;text1&quot;</span>:<span class="number">1</span>,<span class="string">&quot;text2&quot;</span>:<span class="number">2</span>,<span class="string">&quot;txet3&quot;</span>:<span class="number">3</span>&#125;,</span><br><span class="line">      &#123;<span class="string">&quot;text1&quot;</span>:<span class="number">4</span>,<span class="string">&quot;text2&quot;</span>:<span class="number">5</span>,<span class="string">&quot;txet3&quot;</span>:<span class="number">6</span>&#125;,</span><br><span class="line">      &#123;<span class="string">&quot;text1&quot;</span>:<span class="number">7</span>,<span class="string">&quot;text2&quot;</span>:<span class="number">8</span>,<span class="string">&quot;txet3&quot;</span>:<span class="number">9</span>&#125;,</span><br><span class="line">      &#123;<span class="string">&quot;text1&quot;</span>:<span class="number">10</span>,<span class="string">&quot;text2&quot;</span>:<span class="number">11</span>,<span class="string">&quot;txet3&quot;</span>:<span class="number">12</span>&#125;,</span><br><span class="line">      &#123;<span class="string">&quot;text1&quot;</span>:<span class="number">13</span>,<span class="string">&quot;text2&quot;</span>:<span class="number">14</span>,<span class="string">&quot;txet3&quot;</span>:<span class="number">15</span>&#125;,</span><br><span class="line">      &#123;<span class="string">&quot;text1&quot;</span>:<span class="number">16</span>,<span class="string">&quot;text2&quot;</span>:<span class="number">17</span>,<span class="string">&quot;txet3&quot;</span>:<span class="number">18</span>&#125;,</span><br><span class="line">      &#123;<span class="string">&quot;text1&quot;</span>:<span class="number">19</span>,<span class="string">&quot;text2&quot;</span>:<span class="number">20</span>,<span class="string">&quot;txet3&quot;</span>:<span class="number">21</span>&#125;,</span><br><span class="line">      </span><br><span class="line">      </span><br><span class="line">      ],</span><br><span class="line">      <span class="attr">listData1</span>:&#123;<span class="string">&quot;text1&quot;</span>:<span class="number">22</span>,<span class="string">&quot;text2&quot;</span>:<span class="number">23</span>&#125;</span><br><span class="line">  &#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--pages/word/word.wxml--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span><span class="tag">&lt;<span class="name">text</span> <span class="attr">class</span>=<span class="string">&quot;h2&quot;</span>&gt;</span>第&#123;&#123;zubie&#125;&#125;组<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span><span class="tag">&lt;<span class="name">text</span> <span class="attr">class</span>=<span class="string">&quot;h2&quot;</span>&gt;</span>第&#123;&#123;zn&#125;&#125;个，共30个<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot; h1&quot;</span>&gt;</span>&#123;&#123;english&#125;&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">style</span>=<span class="string">&quot;font-size: 40rpx;&quot;</span>&gt;</span>&#123;&#123;chinese&#125;&#125;<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;button right&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span>  <span class="attr">class</span>=<span class="string">&quot;weui-btn weui-btn_primary&quot;</span> <span class="attr">bindtap</span>=<span class="string">&quot;nextWord&quot;</span>&gt;</span>下一个单词<span class="tag">&lt;/<span class="name">button</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;button left&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;weui-btn weui-btn_default&quot;</span> <span class="attr">bindtap</span>=<span class="string">&quot;previousWord&quot;</span>&gt;</span>上一个单词<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* pages/word/word.wxss */</span></span><br><span class="line"><span class="selector-class">.h1</span>&#123;</span><br><span class="line"><span class="attribute">font-size</span>: <span class="number">60</span>rpx;</span><br><span class="line"><span class="attribute">display</span>: flex;</span><br><span class="line"><span class="attribute">flex-direction</span>: column;</span><br><span class="line"><span class="attribute">align-items</span>: center;</span><br><span class="line"><span class="attribute">justify-content</span>: space-between;</span><br><span class="line"><span class="attribute">padding</span>: <span class="number">200</span>rpx <span class="number">100</span>rpx;</span><br><span class="line"><span class="attribute">box-sizing</span>: border-box;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.h2</span>&#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">40</span>rpx;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">10</span>rpx <span class="number">100</span>rpx;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.button</span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">position</span>:fixed;</span><br><span class="line">   <span class="attribute">bottom</span>:<span class="number">300</span>rpx;</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line"><span class="attribute">right</span>: <span class="number">10</span>rpx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line"><span class="attribute">left</span>: <span class="number">10</span>rpx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pages/word/word.js</span></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 页面的初始数据</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="attr">data</span>: &#123;</span><br><span class="line">    <span class="attr">english</span>:<span class="string">&quot;点击下一个&quot;</span>,</span><br><span class="line">    <span class="attr">chinese</span>:<span class="string">&quot;开始&quot;</span>,</span><br><span class="line">    <span class="attr">n</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="attr">zubie</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="attr">zn</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="attr">word</span>:[单词]，</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line"><span class="attr">nextWord</span>:<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">var</span> n=<span class="built_in">this</span>.data.n+<span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> ((<span class="built_in">this</span>.data.zubie*<span class="number">30</span>-<span class="number">30</span>)&lt;n &amp;&amp;</span><br><span class="line">  n&lt;=<span class="built_in">this</span>.data.zubie*<span class="number">30</span>)&#123;</span><br><span class="line">    <span class="built_in">this</span>.setData(&#123;</span><br><span class="line">    <span class="attr">n</span>:n,</span><br><span class="line">    <span class="attr">chinese</span>:<span class="built_in">this</span>.data.word[n][<span class="number">1</span>],</span><br><span class="line">    <span class="attr">english</span>:<span class="built_in">this</span>.data.word[n][<span class="number">0</span>],</span><br><span class="line">    <span class="attr">zn</span>:<span class="built_in">this</span>.data.zn+<span class="number">1</span></span><br><span class="line">  &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.setData(&#123;</span><br><span class="line">      <span class="attr">chinese</span>:<span class="string">&quot;这组单词背完啦&quot;</span>,</span><br><span class="line">      <span class="attr">english</span>:<span class="string">&quot;恭喜&quot;</span></span><br><span class="line">  &#125;)&#125;</span><br><span class="line"><span class="built_in">console</span>.log(n)</span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">previousWord</span>:<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> n=<span class="built_in">this</span>.data.n-<span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> ((<span class="built_in">this</span>.data.zubie*<span class="number">30</span>-<span class="number">30</span>)&lt;n &amp;&amp;</span><br><span class="line">  n&lt;<span class="built_in">this</span>.data.zubie*<span class="number">30</span>)&#123;</span><br><span class="line">    <span class="built_in">this</span>.setData(&#123;</span><br><span class="line">    <span class="attr">n</span>:n,</span><br><span class="line">    <span class="attr">chinese</span>:<span class="built_in">this</span>.data.word[n][<span class="number">1</span>],</span><br><span class="line">    <span class="attr">english</span>:<span class="built_in">this</span>.data.word[n][<span class="number">0</span>],</span><br><span class="line">    <span class="attr">zn</span>:<span class="built_in">this</span>.data.zn-<span class="number">1</span></span><br><span class="line">  &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.setData(&#123;</span><br><span class="line">      <span class="attr">chinese</span>:<span class="string">&quot;别翻啦，没了&quot;</span>,</span><br><span class="line">      <span class="attr">english</span>:<span class="string">&quot;&lt;-.-&gt;&quot;</span></span><br><span class="line">      <span class="comment">// zn:0</span></span><br><span class="line">  &#125;)&#125;</span><br><span class="line"><span class="built_in">console</span>.log(n)</span><br><span class="line">  </span><br><span class="line">&#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 生命周期函数--监听页面加载</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="attr">onLoad</span>: <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(options)</span><br><span class="line"><span class="built_in">this</span>.setData(&#123;<span class="attr">zubie</span>:<span class="built_in">Number</span>(options.zubie),</span><br><span class="line"><span class="attr">n</span>:<span class="built_in">Number</span>(options.zubie)*<span class="number">30</span>-<span class="number">30</span>,<span class="attr">zn</span>:<span class="number">0</span>&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span>.data.zubie)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span>.data.zn)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 生命周期函数--监听页面初次渲染完成</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="attr">onReady</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 生命周期函数--监听页面显示</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="attr">onShow</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 生命周期函数--监听页面隐藏</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="attr">onHide</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 生命周期函数--监听页面卸载</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="attr">onUnload</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 页面相关事件处理函数--监听用户下拉动作</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="attr">onPullDownRefresh</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 页面上拉触底事件的处理函数</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="attr">onReachBottom</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 用户点击右上角分享</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="attr">onShareAppMessage</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="三-收获"><a href="#三-收获" class="headerlink" title="三.收获"></a>三.收获</h2><p>今天的这个练习收获了不少知识，小程序的页面跳转传参等一系列的小知识点。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//传参方法1</span><br><span class="line"><span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">&quot;../word/word?zubie=&#123;&#123;item.text1&#125;&#125;&amp;zn=0&quot;</span>&gt;</span>第&#123;&#123;item.text1&#125;&#125;组<span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在js中用 options接收</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">onLoad: <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(options)</span><br><span class="line"><span class="built_in">this</span>.setData(&#123;<span class="attr">zubie</span>:<span class="built_in">Number</span>(options.zubie),</span><br><span class="line"><span class="attr">n</span>:<span class="built_in">Number</span>(options.zubie)*<span class="number">30</span>-<span class="number">30</span>,<span class="attr">zn</span>:<span class="number">0</span>&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span>.data.zubie)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span>.data.zn)</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/27/js/" rel="prev" title="js">
+      <i class="fa fa-chevron-left"></i> js
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AE%9E%E4%BE%8B1%EF%BC%88%E8%83%8C%E5%8D%95%E8%AF%8D%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">微信小程序设计实例1（背单词）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">一.简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">二.代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%94%B6%E8%8E%B7"><span class="nav-number">1.3.</span> <span class="nav-text">三.收获</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zzx</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zzx</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
